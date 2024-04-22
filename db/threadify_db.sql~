@@ -136,3 +136,51 @@ VALUES
 (601, 101, 2),
 (602, 102, 1),
 (603, 103, 1);
+
+SELECT * FROM Customers WHERE Name = 'Mario Judah';
+
+DELETE FROM Suppliers WHERE Name = 'Elon Fabrics';
+
+INSERT INTO Suppliers (SupplierID, Name, Address, Email, Number)
+VALUES (304, 'Thread Masters', '400 Thread Ct', 'contact@threadmasters.com', '555-0102');
+
+
+SELECT * FROM Products WHERE Season = 'All';
+
+UPDATE Stores
+SET Manager = 'Linda Brown'
+WHERE StoreID = 202;
+
+DELETE FROM Purchases
+WHERE PurchaseID = 603;
+
+SELECT p.Name, s.Name AS SupplierName, r.ShippingDate
+FROM RestockOrders r
+JOIN Suppliers s ON r.SupplierID = s.SupplierID
+JOIN RestockOrderItems roi ON r.RestockOrderID = roi.RestockOrderID
+JOIN Products p ON roi.ProductID = p.ProductID
+WHERE r.StoreID = 201;
+
+UPDATE StoreItems
+SET CurrentStock = CurrentStock + 10
+WHERE StoreID = 201 AND ProductID = 101;
+
+-- Insert the purchase
+INSERT INTO Purchases (PurchaseID, CustomerID, StoreID, BuyDate)
+VALUES (604, 401, 202, '2023-05-01');
+
+-- Insert the items bought
+INSERT INTO PurchaseItems (PurchaseID, ProductID, Quantity)
+VALUES
+(604, 101, 3),
+(604, 102, 2);
+
+-- CRUD Queries
+SELECT Name, Email FROM Customers WHERE RewardsMember = TRUE;
+
+UPDATE RestockOrders
+SET ShipmentConfirmation = TRUE
+WHERE RestockOrderID = 502;
+
+DELETE FROM Suppliers
+WHERE SupplierID = 303;
