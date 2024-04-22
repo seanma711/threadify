@@ -7,7 +7,7 @@ CREATE TABLE Suppliers (
     Address VARCHAR(255),
     Email VARCHAR(255),
     Number VARCHAR(255)
-) On Delete ;
+);
 
 CREATE TABLE Products (
     ProductID INT PRIMARY KEY,
