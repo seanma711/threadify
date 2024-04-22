@@ -1,3 +1,4 @@
+
 INSERT INTO StoreItems(StoreID,Name,Address,Manager,PhoneNumber,Email) VALUES
 (1,'Eamia','04316 Transport Pass','Ellswerth Castles','405-300-9654','ecastles0@wunderground.com')
 ,(2,'Kwilith','71 Londonderry Lane','Merwyn Cleverley','448-882-5285','mcleverley1@privacy.gov.au')
