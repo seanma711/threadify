@@ -2,6 +2,20 @@ DROP DATABASE threadify_db;
 CREATE DATABASE threadify_db;
 USE threadify_db;
 
+CREATE TABLE ProductTypes (
+    TypeID INT PRIMARY KEY,
+    Name VARCHAR(255)
+);
+
+CREATE TABLE Seasons (
+    SeasonID INT PRIMARY KEY,
+    Name VARCHAR(255)
+);
+
+Create TABLE ProductGenders (
+    GenderID INT PRIMARY KEY,
+    Name VARCHAR(255)
+);
 CREATE TABLE Suppliers (
     SupplierID INT PRIMARY KEY,
     Name VARCHAR(255),
@@ -20,21 +34,6 @@ CREATE TABLE Products (
     FOREIGN KEY (TypeID) REFERENCES ProductTypes(TypeID),
     FOREIGN KEY (SeasonID) REFERENCES Seasons(SeasonID),
     FOREIGN KEY (GenderID) REFERENCES ProductGenders(GenderID)
-);
-
-CREATE TABLE ProductTypes (
-    TypeID INT PRIMARY KEY,
-    Name VARCHAR(255)
-);
-
-CREATE TABLE Seasons (
-    SeasonID INT PRIMARY KEY,
-    Name VARCHAR(255)
-);
-
-Create TABLE ProductGenders (
-    GenderID INT PRIMARY KEY,
-    Name VARCHAR(255)
 );
 
 CREATE TABLE Stores (
