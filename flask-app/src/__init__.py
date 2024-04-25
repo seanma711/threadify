@@ -38,14 +38,16 @@ def create_app():
     from src.purchases.purchases import purchases
     from src.restockOrders.restockOrders import restock_orders
     from src.suppliers.suppliers import suppliers
+    from src.store.store import stores
 
     # Register the routes from each Blueprint with the app object
     # and give a url prefix to each
-    app.register_blueprint(customers,   url_prefix='/c')
-    app.register_blueprint(products,    url_prefix='/pr')
-    app.register_blueprint(purchases,   url_prefix='/pu')
-    app.register_blueprint(suppliers,   url_prefix='/su')
-    app.register_blueprint(restock_orders,    url_prefix='/r')
+    app.register_blueprint(customers,   url_prefix='/customers')
+    app.register_blueprint(products,    url_prefix='/products')
+    app.register_blueprint(purchases,   url_prefix='/purchases')
+    app.register_blueprint(suppliers,   url_prefix='/suppliers')
+    app.register_blueprint(stores,   url_prefix='/stores')
+    app.register_blueprint(restock_orders,    url_prefix='/restock_orders')
 
     # Don't forget to return the app object
     return app

@@ -6,7 +6,7 @@ from src import db
 stores = Blueprint('stores', __name__)
 
 # Get all stores from the DB
-@stores.route('/stores', methods=['GET'])
+@stores.route('/', methods=['GET'])
 def get_stores():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Stores')
@@ -21,7 +21,7 @@ def get_stores():
     return response
 
 # Get details for a specific store
-@stores.route('/stores/<int:store_id>', methods=['GET'])
+@stores.route('/<int:store_id>', methods=['GET'])
 def get_store(store_id):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Stores WHERE StoreID = %s', (store_id,))
@@ -35,8 +35,53 @@ def get_store(store_id):
     response.mimetype = 'application/json'
     return response
 
+# Get details for a specific store
+@stores.route('/<int:store_id>/purchases', methods=['GET'])
+def get_store_purchases(store_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Purchases WHERE StoreID = %s', (store_id,))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    result = cursor.fetchone()
+    if result:
+        json_data = dict(zip(row_headers, result))
+    response = make_response(jsonify(json_data))
+    response.status_code = 200
+    response.mimetype = 'application/json'
+    return response
+
+# Get details for a specific store
+@stores.route('/<int:store_id>/inventory', methods=['GET'])
+def get_store_inventory(store_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM StoreItems WHERE StoreID = %s', (store_id,))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    results = cursor.fetchall()
+    for result in results:
+        json_data.append(dict(zip(row_headers, result)))
+    response = make_response(jsonify(json_data))
+    response.status_code = 200
+    response.mimetype = 'application/json'
+    return response
+
+# Get details for a specific store
+@stores.route('/<int:store_id>/restockOrders', methods=['GET'])
+def get_store_orders(store_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM RestockOrders WHERE StoreID = %s', (store_id,))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    result = cursor.fetchone()
+    if result:
+        json_data = dict(zip(row_headers, result))
+    response = make_response(jsonify(json_data))
+    response.status_code = 200
+    response.mimetype = 'application/json'
+    return response
+
 # Add a new store
-@stores.route('/stores', methods=['POST'])
+@stores.route('/', methods=['POST'])
 def add_store():
     data = request.get_json()
     cursor = db.get_db().cursor()
@@ -48,7 +93,7 @@ def add_store():
     return response
 
 # Update store details
-@stores.route('/stores/<int:store_id>', methods=['PUT'])
+@stores.route('/<int:store_id>', methods=['PUT'])
 def update_store(store_id):
     data = request.get_json()
     cursor = db.get_db().cursor()
@@ -60,7 +105,7 @@ def update_store(store_id):
     return response
 
 # Delete a store
-@stores.route('/stores/<int:store_id>', methods=['DELETE'])
+@stores.route('/<int:store_id>', methods=['DELETE'])
 def delete_store(store_id):
     cursor = db.get_db().cursor()
     cursor.execute('DELETE FROM Stores WHERE StoreID = %s', (store_id,))

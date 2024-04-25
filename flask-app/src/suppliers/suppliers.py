@@ -5,7 +5,7 @@ from src import db
 suppliers = Blueprint('suppliers', __name__)
 
 # Get all suppliers from the DB
-@suppliers.route('/suppliers', methods=['GET'])
+@suppliers.route('/', methods=['GET'])
 def get_all_suppliers():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Suppliers')
@@ -32,6 +32,21 @@ def get_supplier(supplier_id):
         json_data = {}
     response = make_response(jsonify(json_data))
     response.status_code = 200 if result else 404
+    response.mimetype = 'application/json'
+    return response
+
+# Get details for a specific supplier
+@suppliers.route('/suppliers/<int:supplier_id>/orders', methods=['GET'])
+def get_supplier_orders(supplier_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM RestockOrders WHERE SupplierID = %s', (supplier_id,))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    results = cursor.fetchall()
+    for result in results:
+        json_data.append(dict(zip(row_headers, result)))
+    response = make_response(jsonify(json_data))
+    response.status_code = 200
     response.mimetype = 'application/json'
     return response
 

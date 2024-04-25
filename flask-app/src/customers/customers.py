@@ -5,7 +5,7 @@ from src import db
 customers = Blueprint('customers', __name__)
 
 # This Gets all customers from the DB
-@customers.route('/customers', methods=['GET'])
+@customers.route('/all', methods=['GET'])
 def get_all_customers():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Customers')
@@ -20,7 +20,7 @@ def get_all_customers():
     return response
 
 # Get details for a specific customer
-@customers.route('/customers/<int:customer_id>', methods=['GET'])
+@customers.route('/customer/<int:customer_id>', methods=['GET'])
 def get_customer(customer_id):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Customers WHERE CustomerID = %s', (customer_id,))
@@ -35,8 +35,23 @@ def get_customer(customer_id):
     response.mimetype = 'application/json'
     return response
 
+# Get details for a specific customer
+@customers.route('/customer/<int:customer_id>/purchases', methods=['GET'])
+def get_customer_purchases(customer_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Purchases WHERE CustomerID = %s', (customer_id,))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    results = cursor.fetchall()
+    for result in results:
+        json_data.append(dict(zip(row_headers, result)))
+    responses = make_response(jsonify(json_data))
+    responses.status_code = 200 if results else 404
+    responses.mimetype = 'application/json'
+    return responses
+
 # Adds a new customer
-@customers.route('/customers', methods=['POST'])
+@customers.route('/', methods=['POST'])
 def add_customer():
     data = request.get_json()
     cursor = db.get_db().cursor()
@@ -48,7 +63,7 @@ def add_customer():
     return response
 
 # Update customer details
-@customers.route('/customers/<int:customer_id>', methods=['PUT'])
+@customers.route('/customer/<int:customer_id>', methods=['PUT'])
 def update_customer(customer_id):
     data = request.get_json()
     cursor = db.get_db().cursor()
@@ -60,7 +75,7 @@ def update_customer(customer_id):
     return response
 
 # Delete a customer
-@customers.route('/customers/<int:customer_id>', methods=['DELETE'])
+@customers.route('/customer/<int:customer_id>', methods=['DELETE'])
 def delete_customer(customer_id):
     cursor = db.get_db().cursor()
     cursor.execute('DELETE FROM Customers WHERE CustomerID = %s', (customer_id,))

@@ -5,7 +5,7 @@ from src import db
 purchases = Blueprint('purchases', __name__)
 
 # Get all purchases from the DB
-@purchases.route('/purchases', methods=['GET'])
+@purchases.route('/', methods=['GET'])
 def get_all_purchases():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Purchases')
@@ -20,7 +20,7 @@ def get_all_purchases():
     return response
 
 # Get details for a specific purchase
-@purchases.route('/purchases/<int:purchase_id>', methods=['GET'])
+@purchases.route('/<int:purchase_id>', methods=['GET'])
 def get_purchase(purchase_id):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Purchases WHERE PurchaseID = %s', (purchase_id,))
@@ -36,7 +36,7 @@ def get_purchase(purchase_id):
     return response
 
 # Add a new purchase
-@purchases.route('/purchases', methods=['POST'])
+@purchases.route('/', methods=['POST'])
 def add_purchase():
     data = request.get_json()
     cursor = db.get_db().cursor()
@@ -48,7 +48,7 @@ def add_purchase():
     return response
 
 # Update purchase details
-@purchases.route('/purchases/<int:purchase_id>', methods=['PUT'])
+@purchases.route('/<int:purchase_id>', methods=['PUT'])
 def update_purchase(purchase_id):
     data = request.get_json()
     cursor = db.get_db().cursor()
@@ -60,7 +60,7 @@ def update_purchase(purchase_id):
     return response
 
 # Delete a purchase
-@purchases.route('/purchases/<int:purchase_id>', methods=['DELETE'])
+@purchases.route('/<int:purchase_id>', methods=['DELETE'])
 def delete_purchase(purchase_id):
     cursor = db.get_db().cursor()
     cursor.execute('DELETE FROM Purchases WHERE PurchaseID = %s', (purchase_id,))
@@ -70,7 +70,7 @@ def delete_purchase(purchase_id):
     return response
 
 # Get all items for a specific purchase
-@purchases.route('/purchases/<int:purchase_id>/items', methods=['GET'])
+@purchases.route('/<int:purchase_id>/items', methods=['GET'])
 def get_purchase_items(purchase_id):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM PurchaseItems WHERE PurchaseID = %s', (purchase_id,))

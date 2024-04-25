@@ -6,7 +6,7 @@ from src import db
 products = Blueprint('products', __name__)
 
 # Get all the products from the database
-@products.route('/products', methods=['GET'])
+@products.route('/', methods=['GET'])
 def get_products():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
@@ -47,10 +47,8 @@ def update_product(id):
     return jsonify({"message": "Product updated successfully"}), 200
 
 
-
-@products.route('/product/<id>', methods=['GET'])
+@products.route('/<id>', methods=['GET'])
 def get_product_detail (id):
-
     query = 'SELECT id, product_name, description, list_price, category FROM products WHERE id = ' + str(id)
     current_app.logger.info(query)
 
