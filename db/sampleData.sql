@@ -1,3 +1,4 @@
+USE threadify;
 INSERT INTO ProductTypes VALUES (0, 'T-Shirt'), (1, 'Shorts'), (2, 'Pants'), (3, 'Long Shirt'), (4, 'Jackets'), (5, 'Socks'), (6, 'Underwear'), (7, 'Dresses'), (8, 'Shoes');
 INSERT INTO Seasons VALUES (0, 'Winter'), (1, 'Spring'), (2, 'Summer'), (3, 'Fall');
 INSERT INTO ProductGenders VALUES (0, 'Male'), (1, 'Female'), (2, 'Summer'), (3, 'Unisex');

@@ -1,6 +1,6 @@
-DROP DATABASE threadify_db;
-CREATE DATABASE threadify_db;
-USE threadify_db;
+DROP DATABASE IF EXISTS threadify;
+CREATE DATABASE threadify;
+USE threadify;
 
 CREATE TABLE ProductTypes (
     TypeID INT PRIMARY KEY,
