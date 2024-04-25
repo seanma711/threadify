@@ -31,6 +31,23 @@ def get_products():
 
     return jsonify(json_data)
 
+@products.route('/product/<int:id>', methods=['PUT'])
+def update_product(id):
+    data = request.json
+    cursor = db.get_db().cursor()
+
+    query = '''
+        UPDATE products 
+        SET product_name = %s, description = %s, category = %s, list_price = %s
+        WHERE id = %s
+    '''
+    cursor.execute(query, (data['product_name'], data['description'], data['category'], data['list_price'], id))
+    db.get_db().commit()
+
+    return jsonify({"message": "Product updated successfully"}), 200
+
+
+
 @products.route('/product/<id>', methods=['GET'])
 def get_product_detail (id):
 
