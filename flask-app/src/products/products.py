@@ -76,6 +76,15 @@ def get_most_pop_products():
     return jsonify(json_data)
 
 
+@products.route('/product/<int:id>', methods=['DELETE'])
+def delete_product(id):
+    cursor = db.get_db().cursor()
+    cursor.execute('DELETE FROM products WHERE id = %s', (id,))
+    db.get_db().commit()
+    return jsonify({"message": "Product deleted successfully"}), 200
+
+
+
 @products.route('/tenMostExpensive', methods=['GET'])
 def get_10_most_expensive_products():
     
